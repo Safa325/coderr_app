@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',  # Lokale Entwicklung
     'localhost',  # Lokaler Zugriff über Hostnamen
-    'Safa325.pythonanywhere.com',  # Produktionsdomain
+    'safa325.pythonanywhere.com',  # Produktionsdomain
     'www.example.com',  # WWW-Version der Domain
     'example-us.vercel.app'  # Beispiel für eine Deployment-Domain
 ]
@@ -38,7 +38,7 @@ CORS_ORIGIN_ALLOW_ALL = False  # Nur explizite Domains zulassen
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",  # Lokaler Zugriff über Port 5500
     "http://localhost:5500",  # Alternative Schreibweise
-    "https://Safa325.pythonanywhere.com",  # Beispiel für Produktion
+    "https://safa325.pythonanywhere.com",  # Beispiel für Produktion
 ]
 
 # CSRF Einstellungen
@@ -46,7 +46,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
     "https://example-us.vercel.app",
-    "https://Safa325.pythonanywhere.com"
+    "https://safa325.pythonanywhere.com"
 ]
 
 # CORS Header
