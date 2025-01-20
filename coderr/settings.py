@@ -189,8 +189,22 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 6,  
 }
 
+import os
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
-}
+if os.getenv("RAILWAY_ENVIRONMENT"):  # Auf Railway
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:  # Lokal (SQLite)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+    
+    
