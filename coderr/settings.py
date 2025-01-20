@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',  # Lokale Entwicklung
     'localhost',  # Lokaler Zugriff über Hostnamen
-    'example.com',  # Produktionsdomain
+    'coderr_app.railway.internal',  # Produktionsdomain
     'www.example.com',  # WWW-Version der Domain
     'example-us.vercel.app'  # Beispiel für eine Deployment-Domain
 ]
@@ -38,14 +38,15 @@ CORS_ORIGIN_ALLOW_ALL = False  # Nur explizite Domains zulassen
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",  # Lokaler Zugriff über Port 5500
     "http://localhost:5500",  # Alternative Schreibweise
-    "https://example-us.vercel.app",  # Beispiel für Produktion
+    "https://coderr_app.railway.internal",  # Beispiel für Produktion
 ]
 
 # CSRF Einstellungen
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-    "https://example-us.vercel.app"
+    "https://example-us.vercel.app",
+    "https://coderr_app.railway.internal"
 ]
 
 # CORS Header
@@ -90,6 +91,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 
@@ -160,8 +162,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+import os
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -183,4 +187,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  
     'PAGE_SIZE': 6,  
+}
+
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
