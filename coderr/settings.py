@@ -26,26 +26,29 @@ SECRET_KEY = 'django-insecure-m7xfs!59dmgb-8v*012b1s85g7s(-ov^$-etbl%0m5-@@7ga(m
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',  # Lokale Entwicklung
-    'localhost',  # Lokaler Zugriff über Hostnamen
-    'example.com',  # Produktionsdomain
-    'www.example.com',  # WWW-Version der Domain
-    'example-us.vercel.app'  # Beispiel für eine Deployment-Domain
+    '127.0.0.1',  
+    'localhost',  
+    'example.com',  
+    'www.example.com',  
+    'example-us.vercel.app',
+    'safa325.pythonanywhere.com'  
 ]
 
 # CORS Einstellungen
-CORS_ORIGIN_ALLOW_ALL = False  # Nur explizite Domains zulassen
+CORS_ORIGIN_ALLOW_ALL = False  #
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",  # Lokaler Zugriff über Port 5500
-    "http://localhost:5500",  # Alternative Schreibweise
-    "https://example-us.vercel.app",  # Beispiel für Produktion
+    "http://127.0.0.1:5500",  
+    "http://localhost:5500",  
+    "https://example-us.vercel.app", 
+     
 ]
 
 # CSRF Einstellungen
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-    "https://example-us.vercel.app"
+    "https://example-us.vercel.app",
+    'https://safa325.pythonanywhere.com'
 ]
 
 # CORS Header
