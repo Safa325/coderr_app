@@ -9,8 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os
-import dj_database_url
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,7 +21,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-m7xfs!59dmgb-8v*012b1s85g7s(-ov^$-etbl%0m5-@@7ga(m'
-SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -30,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',  # Lokale Entwicklung
     'localhost',  # Lokaler Zugriff über Hostnamen
-    'safa325.pythonanywhere.com',  # Produktionsdomain
+    'example.com',  # Produktionsdomain
     'www.example.com',  # WWW-Version der Domain
     'example-us.vercel.app'  # Beispiel für eine Deployment-Domain
 ]
@@ -40,15 +38,14 @@ CORS_ORIGIN_ALLOW_ALL = False  # Nur explizite Domains zulassen
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",  # Lokaler Zugriff über Port 5500
     "http://localhost:5500",  # Alternative Schreibweise
-    "https://safa325.pythonanywhere.com",  # Beispiel für Produktion
+    "https://example-us.vercel.app",  # Beispiel für Produktion
 ]
 
 # CSRF Einstellungen
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-    "https://example-us.vercel.app",
-    "https://safa325.pythonanywhere.com"
+    "https://example-us.vercel.app"
 ]
 
 # CORS Header
@@ -62,15 +59,6 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with"
-]
-
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -102,7 +90,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',  
     'django.middleware.common.CommonMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 
@@ -130,19 +117,13 @@ WSGI_APPLICATION = 'coderr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-
-
-
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -179,10 +160,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-import os
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -205,6 +184,3 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  
     'PAGE_SIZE': 6,  
 }
-
-    
-    
