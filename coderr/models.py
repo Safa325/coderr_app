@@ -94,7 +94,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.pk} - {self.offer_detail.title} by {self.customer_user.username}"
-   
+  
 class Review(models.Model):
     RATING_CHOICES = [
         (1, '1 - Poor'),
