@@ -42,8 +42,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5500",  
     "https://example-us.vercel.app", 
     "https://safa325.pythonanywhere.com",
-    "http://safashamarijoinapp.ch"
-     
+    "https://safashamarijoinapp.ch"
+    
 ]
 
 # CSRF Einstellungen
@@ -52,7 +52,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5500",
     "https://example-us.vercel.app",
     "https://safa325.pythonanywhere.com",
-    "http://safashamarijoinapp.ch"
+    "https://safashamarijoinapp.ch"
 ]
 
 # CORS Header
