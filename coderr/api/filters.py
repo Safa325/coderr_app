@@ -19,10 +19,10 @@ class ReviewFilter(django_filters.FilterSet):
 class OffersFilter(django_filters.FilterSet):
     min_price = django_filters.NumberFilter(method='filter_min_price', label="Min Price")
     max_delivery_time = django_filters.NumberFilter(method='filter_max_delivery_time', label="Max Delivery Time")
-
+    creator_id = django_filters.NumberFilter(field_name='user', lookup_expr='exact', label="Creator ID")
     class Meta:
         model = Offers
-        fields = ['min_price', 'max_delivery_time']  # Diese Felder verweisen auf die benutzerdefinierten Filtermethoden
+        fields = ['min_price', 'max_delivery_time','creator_id']  
 
     def filter_min_price(self, queryset, name, value):
         """
