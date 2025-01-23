@@ -17,10 +17,16 @@ from coderr.api.filters import ReviewFilter
 from coderr.api.permissions import IsCustomerUser
 
 class CustomPagination(PageNumberPagination):
+    """
+    Benutzerdefinierte Paginierungsklasse, die die Anzahl der Reviews pro Seite steuert.
+    """
     page_size = 6  
     page_size_query_param = 'page_size' 
 
 class ReviewListView(ListAPIView):
+    """
+    API-View für die Liste von Reviews. Unterstützt Filterung, Sortierung und Paginierung.
+    """
     permission_classes = [IsCustomerUser]
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -31,9 +37,15 @@ class ReviewListView(ListAPIView):
     ordering = ['updated_at']
   
     def get_queryset(self):
+        """
+        Gibt das Queryset für Reviews zurück.
+        """
         return Review.objects.all()
 
     def get(self, request, *args, **kwargs):
+        """
+        Holt eine gefilterte und paginierte Liste von Reviews.
+        """
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
 
@@ -42,7 +54,7 @@ class ReviewListView(ListAPIView):
    
     def post(self, request, *args, **kwargs):
         """
-        Erstellt ein neues Review.
+        Erstellt ein neues Review basierend auf den übermittelten Daten.
         """
         serializer = ReviewSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -53,10 +65,14 @@ class ReviewListView(ListAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
 class ReviewDetailView(APIView):
+    """
+    API-View für die Detailansicht eines spezifischen Reviews.
+    Ermöglicht das Anzeigen, Aktualisieren oder Löschen eines Reviews.
+    """
     permission_classes = [IsCustomerUser]
     def get(self, request, *args, **kwargs):
         """
-        Holt die Details eines Reviews.
+        Gibt die Details eines spezifischen Reviews zurück.
         """
         pk = self.kwargs.get('pk')
         review = get_object_or_404(Review, pk=pk)
@@ -64,6 +80,9 @@ class ReviewDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
    
     def patch(self, request, *args, **kwargs):
+        """
+        Aktualisiert ein Review teilweise mit den übermittelten Daten.
+        """
         pk = self.kwargs.get('pk')
         review = get_object_or_404(Review,pk=pk)
         serializer = ReviewSerializer(review, data=request.data, partial=True, context={'request': request})
@@ -75,7 +94,7 @@ class ReviewDetailView(APIView):
 
     def delete(self, request, *args, **kwargs):
         """
-        Löscht eine Bestellung.
+        Löscht ein spezifisches Review basierend auf der ID.
         """
         pk = self.kwargs.get('pk')
         review = get_object_or_404(Review, pk=pk)

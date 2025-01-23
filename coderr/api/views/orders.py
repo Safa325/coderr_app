@@ -15,18 +15,31 @@ from django.db.models import Q
 from coderr.api.permissions import OrderPermissions
 
 class CustomPagination(PageNumberPagination):
+    """
+    Benutzerdefinierte Paginierungsklasse, um die Anzahl der Bestellungen pro Seite zu steuern.
+    """
     page_size = 6  
     page_size_query_param = 'page_size' 
 
 class OrderListView(APIView):
+    """
+    API-View für die Liste der Bestellungen eines Benutzers.
+    Zeigt Bestellungen an, bei denen der Benutzer entweder Kunde oder Geschäftspartner ist.
+    """
     permission_classes = [OrderPermissions]
     def get(self, request, *args, **kwargs):
+        """
+        Gibt eine Liste der Bestellungen für den authentifizierten Benutzer zurück.
+        """
         user = request.user
         orders = Order.objects.filter(Q(customer_user=user) | Q(business_user=user))
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, *args, **kwargs):
+        """
+        Erstellt eine neue Bestellung basierend auf den OfferDetail-Daten und dem authentifizierten Benutzer.
+        """
         serializer = OrderSerializer(data=request.data, context={'request': request})
 
         if serializer.is_valid():
@@ -42,10 +55,14 @@ class OrderListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class OrderDetailView(APIView):
+    """
+    API-View für die Detailansicht einer spezifischen Bestellung.
+    Bietet Funktionen zum Anzeigen, Aktualisieren oder Löschen einer Bestellung.
+    """
     permission_classes = [OrderPermissions]
     def get(self, request, *args, **kwargs):
         """
-        Holt die Details einer Bestellung.
+        Ruft die Details einer spezifischen Bestellung basierend auf der ID ab.
         """
         pk = self.kwargs.get('pk')
         order = get_object_or_404(Order, pk=pk)
@@ -54,7 +71,7 @@ class OrderDetailView(APIView):
 
     def patch(self, request, *args, **kwargs):
         """
-        Aktualisiert eine Bestellung teilweise.
+        Aktualisiert eine Bestellung teilweise mit den übermittelten Daten.
         """
         pk = self.kwargs.get('pk')
         order = get_object_or_404(Order, pk=pk)
@@ -68,7 +85,7 @@ class OrderDetailView(APIView):
 
     def delete(self, request, *args, **kwargs):
         """
-        Löscht eine Bestellung.
+        Löscht eine Bestellung basierend auf der ID.
         """
         pk = self.kwargs.get('pk')
         order = get_object_or_404(Order, pk=pk)
@@ -78,9 +95,12 @@ class OrderDetailView(APIView):
 
 class OrderCountView(APIView):
     """
-    API zum Abrufen der Anzahl von Orders für einen bestimmten Business User.
+    API-Endpunkt zum Abrufen der Gesamtanzahl von Bestellungen für einen Geschäftsnutzer.
     """
     def get(self, request, pk, *args, **kwargs):
+        """
+        Gibt die Anzahl der Bestellungen eines Geschäftsnutzers zurück.
+        """
         try:
             business_user = Profile.objects.get(pk=pk,type='business')
         except Profile.DoesNotExist:
@@ -92,9 +112,12 @@ class OrderCountView(APIView):
    
 class OrderCountCompletedView(APIView):
     """
-    API zum Abrufen der Anzahl von Orders für einen bestimmten Business User.
+    API-Endpunkt zum Abrufen der Anzahl der abgeschlossenen Bestellungen für einen Geschäftsnutzer.
     """
     def get(self, request, pk, *args, **kwargs):
+        """
+        Gibt die Anzahl der abgeschlossenen Bestellungen eines Geschäftsnutzers zurück.
+        """
         try:
             business_user = Profile.objects.get(pk=pk,type='business')
         except Profile.DoesNotExist:
@@ -103,4 +126,4 @@ class OrderCountCompletedView(APIView):
         order_count = Order.objects.filter(business_user=business_user.pk,status='completed').count()
         
         return Response({"completed_order_count": order_count}, status=status.HTTP_200_OK)
-  
+ 

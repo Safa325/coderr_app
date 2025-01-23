@@ -36,11 +36,14 @@ class OfferDetailsUrlSerializer(serializers.ModelSerializer):
         return instance.get_absolute_url()
  
 class OffersSerializer(serializers.ModelSerializer):
+    """
+    Serializer für Angebote (Offers) mit ihren Details, Preisen und Benutzerinformationen.
+    """
     details = serializers.SerializerMethodField()
     min_price = serializers.SerializerMethodField()  
     min_delivery_time = serializers.SerializerMethodField()  
     user_details = serializers.SerializerMethodField()  
- 
+
     class Meta:
         model = Offers
         fields = [
@@ -68,7 +71,7 @@ class OffersSerializer(serializers.ModelSerializer):
             }
             details_url.append(detail_url)
         return details_url
-            
+          
     def get_min_price(self, obj):
         """
         Gibt den niedrigsten Preis in den OfferDetails zurück.
@@ -115,8 +118,65 @@ class OffersSerializer(serializers.ModelSerializer):
                 OfferDetail(offer=offer, **detail) for detail in details_data
             ])
         return offer
+
+class DetailOfferSerializer(serializers.ModelSerializer):
+    """
+    Serializer für detaillierte Angebote mit OfferDetails und zusätzlichen Feldern.
+    """
+
+    details = OfferDetailsSerializer(many=True)
+    min_price = serializers.SerializerMethodField()
+    min_delivery_time = serializers.SerializerMethodField()  
+    user_details = serializers.SerializerMethodField() 
+    class Meta:
+        model = Offers
+        fields = [
+            'id',
+            'user',
+            'title',
+            'image',
+            'description',
+            'created_at',
+            'updated_at',
+            'details',
+            'min_price',
+            'min_delivery_time',
+            'user_details'
+        ]   
+         
+    def get_min_price(self, obj):
+        """
+        Gibt den niedrigsten Preis in den OfferDetails zurück.
+        """
+        details = obj.details.all()
+        if details:
+            return min(detail.price for detail in details)  
+        return None
+    
+    def get_min_delivery_time(self, obj):
+        """
+        Gibt die kürzeste Lieferzeit in den OfferDetails zurück.
+        """
+        details = obj.details.all()
+        if details:
+            return min(detail.delivery_time_in_days for detail in details)  
+        return None
    
+    def get_user_details(self, obj):
+        """
+        Gibt die Benutzerdetails des Angebots zurück.
+        """
+        user = obj.user
+        return {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "username": user.username,
+        }  
+        
     def update(self, instance, validated_data):
+        """
+        Aktualisiert ein Angebot und seine zugehörigen OfferDetails.
+        """
         details_data = self.context['request'].data.get('details', [])
         existing_details = list(instance.details.all())  
 
@@ -134,29 +194,12 @@ class OffersSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.save()
 
-        return instance
-    
-   
-        
-           
-
-class DetailOfferSerializer(serializers.ModelSerializer):
-    details = OfferDetailsSerializer(many=True) 
-     
-    class Meta:
-        model = Offers
-        fields = [
-            'id',
-            'user',
-            'title',
-            'image',
-            'description',
-            'created_at',
-            'updated_at',
-            'details',
-        ]     
+        return instance   
 
 class SimplifiedOffersSerializer(serializers.ModelSerializer):
+    """
+    Serializer für vereinfachte Angebote mit grundlegenden Details.
+    """
     details = OfferDetailsSerializer(many=True)
 
     class Meta:

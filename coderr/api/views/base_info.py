@@ -13,16 +13,28 @@ from django.db.models import Avg, Count
 from rest_framework.pagination import PageNumberPagination
 
 class CustomPagination(PageNumberPagination):
-    page_size = 6  # Standardanzahl von Objekten pro Seite
+    """
+    Benutzerdefinierte Paginierungsklasse zur Steuerung der Anzahl von Objekten, 
+    die pro Seite in der API-Antwort zurückgegeben werden.
+    """
+    page_size = 6  
     page_size_query_param = 'page_size' 
 
 class BaseInfoView(APIView):
     """
-    API-Endpunkt, der allgemeine Basisinformationen zur Plattform zurückgibt.
+    API-Endpunkt, der allgemeine Informationen zur Plattform wie Bewertungen, 
+    durchschnittliche Bewertung, Anzahl der Geschäftsnutzer und Angebote bereitstellt.
     """
     permission_classes = [AllowAny] 
     
     def get(self, request, *args, **kwargs):
+        """
+        Liefert allgemeine Statistiken über die Plattform.
+        - Anzahl der Bewertungen.
+        - Durchschnittliches Bewertungsergebnis.
+        - Anzahl der Geschäftsnutzerprofile.
+        - Anzahl der Angebote.
+        """
         review_count = Review.objects.count()
         
         average_rating = Review.objects.aggregate(avg_rating=Avg('rating'))['avg_rating'] or 0

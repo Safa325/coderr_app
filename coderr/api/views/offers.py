@@ -19,30 +19,37 @@ from coderr.api.permissions import IsBusinessUser
 
 
 class CustomPagination(PageNumberPagination):
+    """
+    Benutzerdefinierte Paginierungsklasse zur Steuerung der Anzahl und Größe von Seiten.
+    """
     page_size = 6  
     page_size_query_param = 'page_size'  
     max_page_size = 100  
 
 class OffersListView(ListAPIView):
+    """
+    API-View für die Liste der Angebote.
+    Ermöglicht Filterung, Suche und Sortierung von Angeboten.
+    """
     permission_classes = [IsBusinessUser]
     serializer_class = OffersSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     pagination_class = CustomPagination  
-    search_fields = ['title', 'description']
+    search_fields = ['title', 'description','creater_id']
     ordering_fields = ['updated_at', 'min_price', 'max_delivery_time']
     ordering = ['updated_at']
     filterset_class = OffersFilter 
 
     def get_queryset(self):
         """
-        Gibt das angepasste Queryset mit Annotationen und Benutzerfilterung zurück.
+        Gibt das angepasste Queryset mit Annotationen und Filterung basierend auf der Benutzerrolle zurück.
         """
         base_queryset = self.get_annotated_queryset()
         return self.filter_queryset_by_user(base_queryset)
 
     def get_annotated_queryset(self):
         """
-        Fügt Annotationen für `min_price` und `max_delivery_time` zum Queryset hinzu.
+        Fügt Annotationen für den minimalen Preis und die maximale Lieferzeit hinzu.
         """
         return Offers.objects.annotate(
             min_price=Min('details__price'),  # Minimaler Preis aus OfferDetails
@@ -51,7 +58,7 @@ class OffersListView(ListAPIView):
 
     def filter_queryset_by_user(self, queryset):
         """
-        Filtert das Queryset basierend auf der Benutzerrolle.
+        Filtert das Queryset basierend auf der Rolle des authentifizierten Benutzers.
         """
         user = self.request.user
         if user.is_authenticated:
@@ -67,8 +74,8 @@ class OffersListView(ListAPIView):
 
     def post(self, request, *args, **kwargs):
         """
-        Erstellt ein neues Angebot.
-        """   
+        Erstellt ein neues Angebot basierend auf den übermittelten Daten.
+        """ 
         serializer = OffersSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             offer = serializer.save(user=request.user)
@@ -77,21 +84,31 @@ class OffersListView(ListAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class DetailOfferView(RetrieveAPIView):
+    """
+    API-View für die Detailansicht eines spezifischen Angebots.
+    Bietet die Möglichkeit, ein Angebot anzuzeigen, zu aktualisieren oder zu löschen.
+    """
     permission_classes = [IsBusinessUser]
     queryset = Offers.objects.all()
     serializer_class = DetailOfferSerializer
 
     def get(self, request, *args, **kwargs):
+        """
+        Ruft die Details eines Angebots basierend auf der ID ab.
+        """
         pk = self.kwargs.get('pk')
         offer = get_object_or_404(self.queryset, pk=pk)
         serializer = self.get_serializer(offer)
         return Response(serializer.data, status=status.HTTP_200_OK)
    
     def patch(self, request, *args, **kwargs):
+        """
+        Aktualisiert ein bestehendes Angebot teilweise, falls der Benutzer berechtigt ist.
+        """
         pk = self.kwargs.get('pk')
         offer = get_object_or_404(Offers, pk=pk)
         
-        serializer = OffersSerializer(offer, data=request.data, partial=True, context={'request': request})
+        serializer = DetailOfferSerializer(offer, data=request.data, partial=True, context={'request': request})
         if offer.user != request.user:
             return Response(
                 {"detail": "You do not have permission to patch this offer."},
@@ -105,6 +122,9 @@ class DetailOfferView(RetrieveAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, *args, **kwargs):
+        """
+        Löscht ein Angebot, falls der Benutzer berechtigt ist.
+        """
         pk = self.kwargs.get('pk')
         offer = get_object_or_404(Offers, pk=pk)
 
@@ -118,16 +138,25 @@ class DetailOfferView(RetrieveAPIView):
         return Response({"detail": "Offer deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 class OfferDetailListView(ListAPIView):
+    """
+    API-View für die Liste der OfferDetails. Zeigt alle OfferDetail-Objekte an.
+    """
     permission_classes = [IsBusinessUser]
     queryset = OfferDetail.objects.all()
     serializer_class = OfferDetailsSerializer     
 
 class DetailOfferDetailView(RetrieveAPIView):
+    """
+    API-View für die Detailansicht eines spezifischen OfferDetails.
+    """
     permission_classes = [IsBusinessUser]
     queryset = OfferDetail.objects.all()
     serializer_class = OfferDetailsSerializer
 
     def get(self, request, *args, **kwargs):
+        """
+        Ruft die Details eines OfferDetails basierend auf der ID ab.
+        """
         pk = self.kwargs.get('pk')
         offerDetail = get_object_or_404(self.queryset, pk=pk)
         serializer = self.get_serializer(offerDetail)

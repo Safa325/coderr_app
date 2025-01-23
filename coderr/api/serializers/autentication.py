@@ -22,6 +22,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         }   
 
     def validate(self, data):
+        """
+        Validiert, ob die Passwörter übereinstimmen und ob der Benutzername oder die E-Mail bereits existieren.
+        """
+
         if data['password'] != data['repeated_password']:
             raise serializers.ValidationError({"password": "Passwords do not match."})
 
@@ -69,6 +73,10 @@ class CustomAuthTokenSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
+        """
+        Validiert die Anmeldedaten, authentifiziert den Benutzer und erstellt/überprüft das Authentifizierungs-Token.
+        """
+
         username = attrs.get('username')
         password = attrs.get('password')
 

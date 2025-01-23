@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
 class UserTypeSerializer(serializers.ModelSerializer):
+    """
+    Serializer für Benutzerinformationen wie Benutzername, Vorname und Nachname.
+    """
     class Meta:
         model = User
         fields = [
@@ -12,6 +15,9 @@ class UserTypeSerializer(serializers.ModelSerializer):
         ]
     
     def update(self, instance, validated_data):
+        """
+        Aktualisiert Benutzerinformationen basierend auf validierten Daten.
+        """
         instance.username = validated_data.get('username', instance.username)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
@@ -20,6 +26,9 @@ class UserTypeSerializer(serializers.ModelSerializer):
         return instance
    
 class ProfileSerializer(serializers.ModelSerializer):
+    """
+    Serializer für Profilinformationen, einschließlich Benutzerdetails und zusätzlicher Felder.
+    """
     user = serializers.IntegerField(source='user.pk', read_only=True)
     username = serializers.CharField(source='user.username', required=False)
     first_name = serializers.CharField(source='user.first_name', required=False)
@@ -46,6 +55,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at']
       
     def create(self, validated_data):
+        """
+        Erstellt ein neues Profil und den zugehörigen Benutzer basierend auf validierten Daten.
+        """
         
         user_data = validated_data.pop('user') 
         
@@ -61,6 +73,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         return profile
   
     def update(self, instance, validated_data):
+        """
+        Aktualisiert ein Profil und die zugehörigen Benutzerdaten basierend auf validierten Daten.
+        """
         user_data = validated_data.pop('user', {})
 
         user = instance.user
@@ -81,6 +96,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
 class BuisnessSerializer(serializers.ModelSerializer):
+    """
+    Serializer für Geschäftsnutzerprofile mit Benutzerdetails und spezifischen Feldern.
+    """
     user = UserTypeSerializer()
     
     class Meta:
@@ -96,6 +114,9 @@ class BuisnessSerializer(serializers.ModelSerializer):
         ]
        
 class CustomerSerializer(serializers.ModelSerializer):
+    """
+    Serializer für Kundenprofile mit Benutzerdetails und zusätzlichen Metadaten wie dem Hochladedatum.
+    """
     user = UserTypeSerializer()
     uploaded_at = serializers.DateTimeField(source='created_at')  
 

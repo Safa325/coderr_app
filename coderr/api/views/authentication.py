@@ -13,13 +13,22 @@ from django.db.models import Avg, Count
 from rest_framework.pagination import PageNumberPagination
 
 class CustomPagination(PageNumberPagination):
-    page_size = 6  # Standardanzahl von Objekten pro Seite
+    """
+    Benutzerdefinierte Paginierungsklasse, die die Anzahl der Objekte pro Seite steuert.
+    """
+    page_size = 6  
     page_size_query_param = 'page_size' 
 
 class RegistrationView(APIView):
+    """
+    API-View für die Benutzerregistrierung. Verwendet den RegistrationSerializer, um neue Benutzer zu erstellen.
+    """
     permission_classes = [AllowAny] 
    
     def post(self, request, *args, **kwargs):
+        """
+        Erstellt einen neuen Benutzer basierend auf den übermittelten Daten und gibt bei Erfolg die Benutzerinformationen zurück.
+        """
         serializer = RegistrationSerializer(data=request.data)
         
         if serializer.is_valid():
@@ -28,12 +37,21 @@ class RegistrationView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class CustomLoginView(APIView):
+    """
+    API-View für die Benutzeranmeldung. Authentifiziert Benutzer und gibt ein Authentifizierungs-Token zurück.
+    """
+
     permission_classes = [AllowAny]  
 
     def post(self, request, *args, **kwargs):
+        """
+        Authentifiziert den Benutzer basierend auf den übermittelten Anmeldeinformationen.
+        Gibt bei Erfolg ein Token und Benutzerinformationen zurück.
+        """
         serializer = CustomAuthTokenSerializer(data=request.data)
 
         if serializer.is_valid():
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    
