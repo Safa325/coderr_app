@@ -1,138 +1,144 @@
-# **Coderr - Django Practice Project**
+# **Coderr - Django Übungsprojekt**
 
-A project developed to learn and deepen Django skills. This project covers essential Django concepts such as models, views, serialization, filtering, pagination, authentication, and permissions. It is a complete backend API system for a platform managing various entities like user profiles, offers, orders, reviews, and more.
+Ein Projekt, das entwickelt wurde, um Django-Kenntnisse zu erlernen und zu vertiefen. Dieses Projekt deckt wichtige Django-Konzepte wie Modelle, Ansichten, Serialisierung, Filterung, Paginierung, Authentifizierung und Berechtigungen ab. Es ist ein komplettes Backend-API-System für eine Plattform, die verschiedene Entitäten wie Benutzerprofile, Angebote, Bestellungen, Bewertungen und mehr verwaltet.
 
 ---
 
-## **Contents**
-- [Features](#features)
-- [Technologies](#technologies)
+## **Inhalt**
+- [Funktionen](#funktionen)
+- [Technologien](#technologien)
 - [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Note](#note)
+- [Benutzung](#benutzung)
+- [Endpunkte (API)](#endpunkte-api)
+- [Hinweis](#hinweis)
 
 ---
 
-## **Features**
+## **Funktionen**
 
-- User registration and authentication using Django Auth.
-- Profiles: Manage business and customer profiles.
-- Offers: CRUD operations for offers and their details.
-- Orders: Creation and management of orders.
-- Reviews: Review offers with ratings and comments.
-- Filtering: Ability to filter offers and reviews.
-- Pagination: Paginated results for large datasets.
-- User roles: Differentiation between business users, customers, and administrators.
+- Benutzerregistrierung und Authentifizierung mit Django Auth.
+- Profile: Verwaltung von Geschäfts- und Kundenprofilen.
+- Angebote (Offers): CRUD-Operationen für Angebote und deren Details.
+- Bestellungen (Orders): Erstellung und Verwaltung von Bestellungen.
+- Bewertungen (Reviews): Bewertung von Angeboten mit Rating und Kommentaren.
+- Filterung: Möglichkeit, Angebote und Bewertungen zu filtern.
+- Paginierung: Paginierte Ergebnisse für große Datensätze.
+- Benutzerrollen: Unterscheidung zwischen Geschäftsbenutzern, Kunden und Administratoren.
 
 ---
 
-## **Technologies**
+## **Technologien**
 
 - **Backend**: Django, Django REST Framework
-- **Database**: SQLite (default) or PostgreSQL (optional)
-- **Package Management**: pip
-- **Virtual Environment**: venv
+- **Datenbank**: SQLite (Standard) oder PostgreSQL (optional)
+- **Paketmanagement**: pip
+- **Virtuelle Umgebung**: venv
 
 ---
 
 ## **Installation**
 
-### **Prerequisites**
-- Python 3.8 or higher
-- pip (Python package manager)
-- Git (to clone the repository)
+### **Voraussetzungen**
+- Python 3.8 oder höher
+- pip (Python-Paketmanager)
+- Git (zum Klonen des Repositories)
 
-### **Steps**
+### **Schritte**
 
-1. **Clone the repository**
-   ```bash
+1. **Repository klonen**
+   
+bash
    git clone https://github.com/username/coderr.git
    cd coderr
-   ```
 
-2. **Create a virtual environment**
-   ```bash
+
+2. **Virtuelle Umgebung erstellen**
+   
+bash
    python -m venv env
-   source env/bin/activate       # For macOS/Linux
-   env\Scripts\activate         # For Windows
-   ```
+   source env/bin/activate       # Für macOS/Linux
+   env\Scripts\activate          # Für Windows
 
-3. **Install dependencies**
-   ```bash
+
+3. **Abhängigkeiten installieren**
+   
+bash
    pip install -r requirements.txt
-   ```
 
-4. **Run database migrations**
-   ```bash
+
+4. **Datenbankmigrationen ausführen**
+   
+bash
    python manage.py makemigrations
    python manage.py migrate
-   ```
 
-5. **Create a superuser**
-   ```bash
+
+5. **Superuser erstellen**
+   
+bash
    python manage.py createsuperuser
-   ```
 
-6. **Start the server**
-   ```bash
+
+6. **Server starten**
+   
+bash
    python manage.py runserver
-   ```
 
-7. **API Documentation**
-   - Visit `http://127.0.0.1:8000/api/` for the API endpoints.
 
----
-
-## **Usage**
-
-1. **Registration and Login**
-   - Register a new user or log in with a superuser account.
-
-2. **Admin Panel**
-   - Access the admin panel at `http://127.0.0.1:8000/admin/`.
-
-3. **API Requests**
-   - Use tools like Postman, Curl, or any REST client application to test the API.
-
-4. **API Endpoints**
-   - Create, update, or delete entities like offers, profiles, orders, and reviews through the API endpoints.
+7. **API-Dokumentation**
+   - Besuche http://127.0.0.1:8000/api/ für die API-Endpunkte.
 
 ---
 
-## **API Endpoints**
+## **Benutzung**
 
-Here are some important API endpoints:
+1. **Registrierung und Login**
+   - Registriere einen neuen Benutzer oder logge dich mit einem Superuser ein.
 
-### **Users**
-- **Registration**: `POST /api/registration/`
-- **Login**: `POST /api/login/`
+2. **Admin-Panel**
+   - Zugriff auf das Admin-Panel über http://127.0.0.1:8000/admin/.
 
-### **Profiles**
-- **All Profiles**: `GET /api/profile/`
-- **Single Profile**: `GET /api/profile/<id>/`
+3. **API-Aufrufe**
+   - Nutze Tools wie Postman, Curl oder eine beliebige REST-Client-Anwendung, um die API zu testen.
 
-### **Offers**
-- **View Offers**: `GET /api/offers/`
-- **Single Offer**: `GET /api/offers/<id>/`
-- **Create Offer**: `POST /api/offers/`
-- **Delete Offer**: `DELETE /api/offers/<id>/`
-
-### **Orders**
-- **View Orders**: `GET /api/orders/`
-- **Create Order**: `POST /api/orders/`
-
-### **Reviews**
-- **View Reviews**: `GET /api/reviews/`
-- **Create Review**: `POST /api/reviews/`
-- **Delete Review**: `DELETE /api/reviews/<id>/`
+4. **API-Endpunkte**
+   - Erstelle, aktualisiere oder lösche Entitäten wie Angebote, Profile, Bestellungen und Bewertungen über die API-Endpunkte.
 
 ---
 
-## **Note**
+## **Endpunkte (API)**
 
-This project was developed as a **practice project** to learn and deepen Django skills. It can serve as a foundation for larger Django projects or for learning backend development with Django.
+Hier sind einige wichtige API-Endpunkte:
+
+### **Benutzer**
+- **Registrierung**: POST /api/registration/
+- **Login**: POST /api/login/
+
+### **Profile**
+- **Alle Profile**: GET /api/profile/
+- **Einzelnes Profil**: GET /api/profile/<id>/
+
+### **Angebote (Offers)**
+- **Angebote anzeigen**: GET /api/offers/
+- **Einzelnes Angebot**: GET /api/offers/<id>/
+- **Angebot erstellen**: POST /api/offers/
+- **Angebot löschen**: DELETE /api/offers/<id>/
+
+### **Bestellungen (Orders)**
+- **Bestellungen anzeigen**: GET /api/orders/
+- **Bestellung erstellen**: POST /api/orders/
+
+### **Bewertungen (Reviews)**
+- **Bewertungen anzeigen**: GET /api/reviews/
+- **Bewertung erstellen**: POST /api/reviews/
+- **Bewertung löschen**: DELETE /api/reviews/<id>/
 
 ---
 
-Happy coding! 😊
+## **Hinweis**
+
+Dieses Projekt wurde als **Übungsprojekt** entwickelt, um Django-Kenntnisse zu erlernen und zu vertiefen. Es kann als Grundlage für größere Django-Projekte oder zum Lernen von Backend-Entwicklung mit Django verwendet werden.
+
+---
+
+Viel Erfolg beim Ausprobieren des Projekts! 😊
