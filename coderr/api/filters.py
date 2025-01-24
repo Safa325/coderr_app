@@ -24,17 +24,18 @@ class ReviewFilter(django_filters.FilterSet):
         Filtert die Reviews nach der ID des Geschäftsnutzers.
         """
         return queryset.filter(business_user_id=value)
-       
+      
 class OffersFilter(django_filters.FilterSet):
     """
     Filterklasse für Angebote (Offers), die Filtermethoden für Preis, Lieferzeit und Ersteller-ID enthält.
     """
     min_price = django_filters.NumberFilter(method='filter_min_price', label="Min Price")
     max_delivery_time = django_filters.NumberFilter(method='filter_max_delivery_time', label="Max Delivery Time")
-    creator_id = django_filters.NumberFilter(field_name='user', lookup_expr='exact', label="Creator ID")
+    creator_id = django_filters.NumberFilter(field_name='user__id', lookup_expr='exact', label="Creator ID")  
+
     class Meta:
         model = Offers
-        fields = ['min_price', 'max_delivery_time','creator_id']  
+        fields = ['min_price', 'max_delivery_time', 'creator_id']  
 
     def filter_min_price(self, queryset, name, value):
         """

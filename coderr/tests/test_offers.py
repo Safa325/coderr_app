@@ -107,6 +107,21 @@ class OffersAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['id'], self.offer_detail.id)
 
+    def test_offers_filter_ordering_and_search(self):
+        """Test, dass Angebote nach Preis gefiltert, sortiert und durchsucht werden können."""
+        self.client.force_authenticate(user=self.customer_user)
+        url = '/api/offers/?min_price=50&ordering=min_price&search=Test'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        for result in response.data['results']:
+            self.assertGreaterEqual(result['min_price'], 50)
+
+        prices = [result['min_price'] for result in response.data['results']]
+        self.assertEqual(prices, sorted(prices))
+
+        for result in response.data['results']:
+            self.assertIn('Test', result['title'] + result['description'])
 
 
 

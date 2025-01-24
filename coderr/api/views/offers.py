@@ -35,7 +35,7 @@ class OffersListView(ListAPIView):
     serializer_class = OffersSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     pagination_class = CustomPagination  
-    search_fields = ['title', 'description','creater_id']
+    search_fields = ['title', 'description']
     ordering_fields = ['updated_at', 'min_price', 'max_delivery_time']
     ordering = ['updated_at']
     filterset_class = OffersFilter 
@@ -90,6 +90,7 @@ class DetailOfferView(RetrieveAPIView):
     """
     permission_classes = [IsBusinessUser]
     queryset = Offers.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     serializer_class = DetailOfferSerializer
 
     def get(self, request, *args, **kwargs):
