@@ -46,41 +46,47 @@ Ein Projekt, das entwickelt wurde, um Django-Kenntnisse zu erlernen und zu verti
 ### **Schritte**
 
 1. **Repository klonen**
-   ```bash
+   
+bash
    git clone https://github.com/username/coderr.git
    cd coderr
-   ```
+
 
 2. **Virtuelle Umgebung erstellen**
-   ```bash
+   
+bash
    python -m venv env
    source env/bin/activate       # Für macOS/Linux
    env\Scripts\activate          # Für Windows
-   ```
+
 
 3. **Abhängigkeiten installieren**
-   ```bash
+   
+bash
    pip install -r requirements.txt
-   ```
+
 
 4. **Datenbankmigrationen ausführen**
-   ```bash
+   
+bash
    python manage.py makemigrations
    python manage.py migrate
-   ```
+
 
 5. **Superuser erstellen**
-   ```bash
+   
+bash
    python manage.py createsuperuser
-   ```
+
 
 6. **Server starten**
-   ```bash
+   
+bash
    python manage.py runserver
-   ```
+
 
 7. **API-Dokumentation**
-   - Besuche `http://127.0.0.1:8000/api/` für die API-Endpunkte.
+   - Besuche http://127.0.0.1:8000/api/ für die API-Endpunkte.
 
 ---
 
@@ -90,7 +96,7 @@ Ein Projekt, das entwickelt wurde, um Django-Kenntnisse zu erlernen und zu verti
    - Registriere einen neuen Benutzer oder logge dich mit einem Superuser ein.
 
 2. **Admin-Panel**
-   - Zugriff auf das Admin-Panel über `http://127.0.0.1:8000/admin/`.
+   - Zugriff auf das Admin-Panel über http://127.0.0.1:8000/admin/.
 
 3. **API-Aufrufe**
    - Nutze Tools wie Postman, Curl oder eine beliebige REST-Client-Anwendung, um die API zu testen.
@@ -105,27 +111,27 @@ Ein Projekt, das entwickelt wurde, um Django-Kenntnisse zu erlernen und zu verti
 Hier sind einige wichtige API-Endpunkte:
 
 ### **Benutzer**
-- **Registrierung**: `POST /api/registration/`
-- **Login**: `POST /api/login/`
+- **Registrierung**: POST /api/registration/
+- **Login**: POST /api/login/
 
 ### **Profile**
-- **Alle Profile**: `GET /api/profile/`
-- **Einzelnes Profil**: `GET /api/profile/<id>/`
+- **Alle Profile**: GET /api/profile/
+- **Einzelnes Profil**: GET /api/profile/<id>/
 
 ### **Angebote (Offers)**
-- **Angebote anzeigen**: `GET /api/offers/`
-- **Einzelnes Angebot**: `GET /api/offers/<id>/`
-- **Angebot erstellen**: `POST /api/offers/`
-- **Angebot löschen**: `DELETE /api/offers/<id>/`
+- **Angebote anzeigen**: GET /api/offers/
+- **Einzelnes Angebot**: GET /api/offers/<id>/
+- **Angebot erstellen**: POST /api/offers/
+- **Angebot löschen**: DELETE /api/offers/<id>/
 
 ### **Bestellungen (Orders)**
-- **Bestellungen anzeigen**: `GET /api/orders/`
-- **Bestellung erstellen**: `POST /api/orders/`
+- **Bestellungen anzeigen**: GET /api/orders/
+- **Bestellung erstellen**: POST /api/orders/
 
 ### **Bewertungen (Reviews)**
-- **Bewertungen anzeigen**: `GET /api/reviews/`
-- **Bewertung erstellen**: `POST /api/reviews/`
-- **Bewertung löschen**: `DELETE /api/reviews/<id>/`
+- **Bewertungen anzeigen**: GET /api/reviews/
+- **Bewertung erstellen**: POST /api/reviews/
+- **Bewertung löschen**: DELETE /api/reviews/<id>/
 
 ---
 
@@ -136,4 +142,3 @@ Dieses Projekt wurde als **Übungsprojekt** entwickelt, um Django-Kenntnisse zu 
 ---
 
 Viel Erfolg beim Ausprobieren des Projekts! 😊
-
