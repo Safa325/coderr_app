@@ -1,24 +1,21 @@
-# syntax=docker/dockerfile:1 <-- Bei manchen Systemen muss diese Zeile weg
-
+# Basis-Image
 FROM python:3.11
 
+# Arbeitsverzeichnis setzen
+WORKDIR /home/safashamari/projects/coderr_app
 
-
-WORKDIR /usr/src/app
-
-
-# docker run --publish 8000:8000 -it \
-#   --mount type=bind,source=/Users/safashamari/Desktop/Developer/Python/coderr,target=/app \
-#   coderr_database bash
-
+# Abhängigkeiten kopieren & installieren
 COPY requirements.txt ./
-
-RUN /usr/local/bin/python -m pip install --upgrade pip
-
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Projektdateien kopieren
+COPY . .
 
+# Statische Dateien sammeln
+RUN python manage.py collectstatic --noinput
 
-COPY . . 
+# Port für Gunicorn freigeben
+EXPOSE 8000
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# Gunicorn starten
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "coderr_app.wsgi:application"]

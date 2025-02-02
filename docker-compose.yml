@@ -1,0 +1,11 @@
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro  # <-- Verknüpft nginx.conf in den Container
+      - /home/safashamari/projects/coderr_app/staticfiles:/home/safashamari/projects/coderr_app/staticfiles
+      - /home/safashamari/projects/coderr_app/media:/home/safashamari/projects/coderr_app/media
+    depends_on:
+      - web
