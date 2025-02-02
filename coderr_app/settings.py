@@ -34,7 +34,8 @@ ALLOWED_HOSTS = [
     'www.example.com',  
     'example-us.vercel.app',
     'safa325.pythonanywhere.com',
-    'safashamarijoinapp.ch'
+    'safashamarijoinapp.ch',
+    '34.65.82.212'
 ]
 
 # CORS Einstellungen
